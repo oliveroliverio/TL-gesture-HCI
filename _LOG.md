@@ -28,6 +28,11 @@
     3.  **Initialize ShadCN**
 
 ### fix: configure import aliases for shadcn
+> [!CAUTION]
+> **Implementation Note**: The `vite.config.js` update in this step may have failed to apply in some instances.
+> A follow-up fix was required to ensure `vite.config.js` correctly included the alias configuration.
+> *(See "fix: correct vite.config.js alias" below)*
+
 - **Files Modified**: `jsconfig.json` (created), `vite.config.js` (updated)
 - **Reason**: Fixed `No import alias found` error during ShadCN initialization.
 - **Implementation**:
@@ -60,3 +65,13 @@
         - `Features`: section to highlight key benefits.
         - `Footer`: simple footer.
     3.  **Assemble**: Put them together in `App.jsx`.
+
+### fix: install missing UI components
+- **Action**: Install `button` component via ShadCN CLI.
+- **Reason**: `Hero.jsx` imports `Button`, but the component wasn't installed, causing a build error.
+- **Command**: `npx shadcn@latest add button`
+
+### fix: correct vite.config.js alias
+- **Files Modified**: `landing-page/vite.config.js`
+- **Action**: Overwrote `vite.config.js` with correct configuration.
+- **Reason**: Initial attempt to update allow configuration failed to apply, causing module resolution errors (`Failed to resolve import "@/components/ui/button"`). Confirmed that `alias` key is now present in `resolve` object.
