@@ -7,6 +7,13 @@
 - **Reason**: To propose a folder structure for the separate landing page project as requested by the user.
 
 ### docs: add react setup instructions
+> [!CAUTION]
+> **Bug Fix Update**: The original instructions missed the required import alias configuration for ShadCN.
+> To fix the `No import alias found` error, you must:
+> 1. Create `jsconfig.json` with path mappings.
+> 2. Update `vite.config.js` to handle the alias.
+> *(See details in "fix: configure import aliases for shadcn" entry below)*
+
 - **File Created**: `landing-page/z-Docs/setup_react_shadcn.md`
 - **Reason**: Added step-by-step terminal commands and configuration instructions for initializing the React project with Tailwind CSS and ShadCN UI as requested.
 
@@ -16,27 +23,40 @@
 
 ### guided: next steps for landing page setup
 - **Instructions provided to user**:
-    1.  **Configure `tailwind.config.js`**:
-        ```javascript
-        /** @type {import('tailwindcss').Config} */
-        export default {
-          content: [
-            "./index.html",
-            "./src/**/*.{js,ts,jsx,tsx}",
-          ],
-          theme: {
-            extend: {},
-          },
-          plugins: [],
+    1.  **Configure `tailwind.config.js`**
+    2.  **Add Tailwind Directives to `src/index.css`**
+    3.  **Initialize ShadCN**
+
+### fix: configure import aliases for shadcn
+- **Files Modified**: `jsconfig.json` (created), `vite.config.js` (updated)
+- **Reason**: Fixed `No import alias found` error during ShadCN initialization.
+- **Implementation**:
+    - **`jsconfig.json`**:
+      ```json
+      {
+        "compilerOptions": {
+          "paths": {
+            "@/*": ["./src/*"]
+          }
         }
-        ```
-    2.  **Add Tailwind Directives to `src/index.css`**:
-        ```css
-        @tailwind base;
-        @tailwind components;
-        @tailwind utilities;
-        ```
-    3.  **Initialize ShadCN**:
-        ```bash
-        npx shadcn@latest init
-        ```
+      }
+      ```
+    - **`vite.config.js`**: Added alias resolution:
+      ```javascript
+      resolve: {
+        alias: {
+          "@": path.resolve(__dirname, "./src"),
+        },
+      },
+      ```
+
+### guided: next steps for basic landing page
+- **Objective**: Create a basic landing page with a banner and essential parts.
+- **Plan**:
+    1.  **Clean up `App.jsx`**: Remove default Vite boilerplate.
+    2.  **Create Components**:
+        - `Navbar`: with logo and links.
+        - `Hero`: with banner image and CTA.
+        - `Features`: section to highlight key benefits.
+        - `Footer`: simple footer.
+    3.  **Assemble**: Put them together in `App.jsx`.
