@@ -75,3 +75,75 @@
 - **Files Modified**: `landing-page/vite.config.js`
 - **Action**: Overwrote `vite.config.js` with correct configuration.
 - **Reason**: Initial attempt to update allow configuration failed to apply, causing module resolution errors (`Failed to resolve import "@/components/ui/button"`). Confirmed that `alias` key is now present in `resolve` object.
+
+### guided: next steps for enhanced landing page
+- **Objective**: Add `Features` section and refactor `Footer`.
+- **Instructions provided to user**:
+    1.  **Install Card Component**:
+        ```bash
+        npx shadcn@latest add card
+        ```
+    2.  **Create `src/components/Features.jsx`**:
+        ```jsx
+        import React from 'react';
+        import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+
+        export function Features() {
+          const features = [
+            { title: "Touchless Control", desc: "Navigate your computer without touching functionality." },
+            { title: "Custom Gestures", desc: "Map specific hand movements to any shortcut." },
+            { title: "Lightning Fast", desc: "Optimized for M-series chips for zero latency." }
+          ];
+
+          return (
+            <section id="features" className="py-24 px-8 bg-muted/50">
+              <div className="max-w-4xl mx-auto grid gap-8 md:grid-cols-3">
+                {features.map((f, i) => (
+                  <Card key={i} className="bg-background">
+                    <CardHeader>
+                      <CardTitle>{f.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription>{f.desc}</CardDescription>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          );
+        }
+        ```
+    3.  **Create `src/components/Footer.jsx`**:
+        ```jsx
+        import React from 'react';
+
+        export function Footer() {
+          return (
+            <footer className="py-8 text-center text-sm text-muted-foreground border-t mt-12 bg-background">
+              <p>&copy; 2024 GestureHCI Project. Open Source.</p>
+            </footer>
+          );
+        }
+        ```
+    4.  **Update `src/App.jsx`**:
+        ```jsx
+        import { Navbar } from "./components/Navbar"
+        import { Hero } from "./components/Hero"
+        import { Features } from "./components/Features"
+        import { Footer } from "./components/Footer"
+
+        function App() {
+          return (
+            <div className="min-h-screen bg-background text-foreground font-sans antialiased">
+              <Navbar />
+              <main>
+                <Hero />
+                <Features />
+              </main>
+              <Footer />
+            </div>
+          )
+        }
+
+        export default App
+        ```
